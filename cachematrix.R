@@ -5,10 +5,15 @@
 ## can cache it's own inverse
 makeCacheMatrix <- function(x = matrix()) {
   m <- NULL
+
+  ## resets the stored inverse to null, sets matrix w/
+  ## provided value
   set <- function(y) {
-    x <<- y
+    m <<- y
     i <<- NULL
   }
+
+  ## Basic getters and setters:
   get <- function() x
   setinverse <- function(inverse) i <<- inverse
   getinverse <- function() i
@@ -23,13 +28,15 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
   i <- x$getinverse()
 
+  ## check for cache, and return if avaialable
   if(!is.null(i)) {
     message("getting cached matrix data")
     return(i)
   }
+  
+  ## manual calculation for non-cached case
   data <- x$get()
   i <- solve(data, ...)
   x$setinverse(i)
   i
-
 }
